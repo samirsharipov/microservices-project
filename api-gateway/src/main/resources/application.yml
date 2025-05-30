@@ -1,0 +1,48 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://auth-service # Load balancing orqali Auth Servicega yo'naltirish
+          predicates:
+            - Path=/api/auth/** # /api/auth/ bilan boshlanadigan barcha so'rovlar
+          filters:
+            - RewritePath=/api/auth/(?<segment>.*), /api/auth/$\{segment} # Pathni qayta yozish
+            - name: AuthenticationFilter # Autentifikatsiya filtri qo'shish
+              args:
+                excludedUrls: /api/auth/register, /api/auth/login # Ushbu URL'lar autentifikatsiyadan o'tmaydi
+
+        - id: classificator-service # Classificator Service uchun marshrut
+          uri: lb://classificator-service # Load balancing orqali Classificator Servicega yo'naltirish
+          predicates:
+            - Path=/api/classificator/** # /api/classificator/ bilan boshlanadigan barcha so'rovlar
+          filters:
+            - RewritePath=/api/classificator/(?<segment>.*), /api/classificator/$\{segment} # Pathni qayta yozish
+            - name: AuthenticationFilter # Autentifikatsiya filtri qo'shish
+              args:
+                excludedUrls: # Classificator Service uchun hozircha istisnolar yo'q, barchasi himoyalangan
+            - name: CircuitBreaker # Circuit Breaker qo'shish
+              args:
+                name: classificator-service-breaker
+                fallbackUri: forward:/fallback/classificator
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
