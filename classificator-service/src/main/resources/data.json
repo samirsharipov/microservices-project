@@ -1,0 +1,39 @@
+{
+  "countries": [
+    {
+      "name": "Uzbekistan",
+      "code": "UZ",
+      "regions": [
+        {
+          "name": "Tashkent Region",
+          "districts": [
+            { "name": "Bostanliq" },
+            { "name": "Chirchiq" },
+            { "name": "Parkent" }
+          ]
+        },
+        {
+          "name": "Samarkand Region",
+          "districts": [
+            { "name": "Samarkand" },
+            { "name": "Urgut" },
+            { "name": "Pastdargom" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kazakhstan",
+      "code": "KZ",
+      "regions": [
+        {
+          "name": "Almaty Region",
+          "districts": [
+            { "name": "Almaty" },
+            { "name": "Taldykorgan" }
+          ]
+        }
+      ]
+    }
+  ]
+}

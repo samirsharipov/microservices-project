@@ -2,23 +2,22 @@ package uz.example.classficatorService.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 import uz.example.classficatorService.entity.Country;
 import uz.example.classficatorService.entity.Region;
 import uz.example.classficatorService.payload.RegionDto;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {DistrictMapper.class}) // DistrictMapper'dan foydalanish
+@Mapper(componentModel = "spring")
 public interface RegionMapper {
-    RegionMapper INSTANCE = Mappers.getMapper(RegionMapper.class);
 
     @Mapping(source = "country.id", target = "countryId")
     RegionDto toDto(Region region);
 
     @Mapping(source = "countryId", target = "country", qualifiedByName = "mapCountryIdToCountry")
-    @Mapping(target = "districts", ignore = true) // Yangilashda districtlarni e'tiborsiz qoldirish
+    @Mapping(target = "districts", ignore = true)
     Region toEntity(RegionDto regionDto);
 
     List<RegionDto> toDtoList(List<Region> regions);
@@ -32,5 +31,8 @@ public interface RegionMapper {
         country.setId(countryId);
         return country;
     }
-}
 
+    @Mapping(target = "districts", ignore = true)
+    @Mapping(target = "country", ignore = true)
+    void update(@MappingTarget Region region, RegionDto regionDto);
+}

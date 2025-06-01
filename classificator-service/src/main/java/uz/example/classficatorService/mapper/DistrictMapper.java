@@ -2,8 +2,8 @@ package uz.example.classficatorService.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 import uz.example.classficatorService.entity.District;
 import uz.example.classficatorService.entity.Region;
 import uz.example.classficatorService.payload.DistrictDto;
@@ -12,7 +12,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface DistrictMapper {
-    DistrictMapper INSTANCE = Mappers.getMapper(DistrictMapper.class);
 
     @Mapping(source = "region.id", target = "regionId")
     DistrictDto toDto(District district);
@@ -31,5 +30,7 @@ public interface DistrictMapper {
         region.setId(regionId);
         return region;
     }
-}
 
+    @Mapping(target = "region", ignore = true)
+    void update(@MappingTarget District district, DistrictDto districtDto);
+}

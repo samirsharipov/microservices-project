@@ -1,0 +1,3 @@
+/Users/samirsharipov/projectsExample/microservices-project /api-gateway/src/main/java/uz/example/gatewayService/config/GatewayConfig.java
+/Users/samirsharipov/projectsExample/microservices-project /api-gateway/src/main/java/uz/example/gatewayService/filter/AuthenticationFilter.java
+/Users/samirsharipov/projectsExample/microservices-project /api-gateway/src/main/java/uz/example/gatewayService/ApiGatewayApplication.java

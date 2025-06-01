@@ -1,0 +1,4 @@
+uz/example/gatewayService/filter/AuthenticationFilter.class
+uz/example/gatewayService/ApiGatewayApplication.class
+uz/example/gatewayService/config/GatewayConfig.class
+uz/example/gatewayService/filter/AuthenticationFilter$Config.class

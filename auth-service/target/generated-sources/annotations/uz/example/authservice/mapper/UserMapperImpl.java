@@ -1,14 +1,14 @@
-package uz.samir.authservice.mapper;
+package uz.example.authservice.mapper;
 
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
-import uz.samir.authservice.entity.User;
-import uz.samir.authservice.payload.UserDto;
+import uz.example.authservice.entity.User;
+import uz.example.authservice.payload.UserDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-29T17:53:15+0500",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Homebrew)"
+    date = "2025-06-01T20:43:25+0500",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.15 (Amazon.com Inc.)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {

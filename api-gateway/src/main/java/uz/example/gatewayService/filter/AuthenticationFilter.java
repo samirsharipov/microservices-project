@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -36,10 +35,12 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
             ServerHttpRequest request = exchange.getRequest();
 
             if (isExcluded(request.getURI().getPath(), config.getExcludedUrls())) {
+                System.out.println("Path is PUBLIC (excluded from auth): " + request.getURI().getPath()); // Debug uchun
                 return chain.filter(exchange);
             }
 
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+                System.out.println("Authorization header topilmadi for secured path: " + request.getURI().getPath()); // Debug uchun
                 return onError(exchange, "Authorization header topilmadi", HttpStatus.UNAUTHORIZED);
             }
 
@@ -49,10 +50,13 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 try {
                     validateToken(token);
                     exchange.getRequest().mutate().header("X-Auth-User", extractUsername(token)).build();
+                    System.out.println("Token valid, user: " + extractUsername(token) + " for path: " + request.getURI().getPath()); // Debug uchun
                 } catch (Exception e) {
-                    return onError(exchange, "Token muddati o'tgan: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
+                    System.out.println("Token xatosi: " + e.getMessage() + " for path: " + request.getURI().getPath()); // Debug uchun
+                    return onError(exchange, "Token muddati o'tgan yoki noto'g'ri: " + e.getMessage(), HttpStatus.UNAUTHORIZED);
                 }
             } else {
+                System.out.println("Authorization header formati noto'g'ri for path: " + request.getURI().getPath()); // Debug uchun
                 return onError(exchange, "Authorization header formati noto'g'ri", HttpStatus.UNAUTHORIZED);
             }
             return chain.filter(exchange);
@@ -96,16 +100,18 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         if (excludedUrls == null || excludedUrls.isEmpty()) {
             return false;
         }
-        return excludedUrls.stream().anyMatch(path::contains);
+        return excludedUrls.stream().anyMatch(excludedPath -> path.equals(excludedPath));
     }
 
-    @Getter
     public static class Config {
         private List<String> excludedUrls;
 
         public void setExcludedUrls(String urls) {
             this.excludedUrls = Arrays.asList(urls.split(","));
         }
+
+        public List<String> getExcludedUrls() {
+            return excludedUrls;
+        }
     }
 }
-

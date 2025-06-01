@@ -8,6 +8,6 @@ import uz.example.classficatorService.payload.ApiResponse;
 @RequestMapping("/api/classificator")
 public interface InitController {
 
-    @PostMapping("/")
+    @PostMapping("/init")
     ResponseEntity<ApiResponse> initData();
 }
