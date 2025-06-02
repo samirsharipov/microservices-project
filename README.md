@@ -17,7 +17,7 @@ microservices-project/
 ## 🔧 Texnologiyalar
 
 - Java 17
-- Spring Boot 3.x
+- Spring Boot 3.2.6
 - Spring Cloud (Gateway, Eureka)
 - Spring Security + JWT
 - PostgreSQL
