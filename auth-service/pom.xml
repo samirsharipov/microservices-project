@@ -7,7 +7,7 @@
 
     <parent>
         <groupId>uz.javadev</groupId>
-        <artifactId>microservices-project</artifactId>  <!-- TO'G'RI -->
+        <artifactId>microservices-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

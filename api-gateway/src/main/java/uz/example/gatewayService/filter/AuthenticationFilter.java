@@ -34,6 +34,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
 
+            System.out.println("=== DEBUG INFO ===");
+            System.out.println("Excluded URLs: " + config.getExcludedUrls());
+            System.out.println("==================");
+
             if (isExcluded(request.getURI().getPath(), config.getExcludedUrls())) {
                 System.out.println("Path is PUBLIC (excluded from auth): " + request.getURI().getPath()); // Debug uchun
                 return chain.filter(exchange);

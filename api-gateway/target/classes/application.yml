@@ -6,7 +6,7 @@ spring:
     name: api-gateway
   cloud:
     gateway:
-      discovery.locator: # Bu qismni qo'shing!
+      discovery.locator:
         enabled: true
         lower-case-service-id: true
       routes:
@@ -15,37 +15,37 @@ spring:
           predicates:
             - Path=/api/auth/**
           filters:
-            - RewritePath=/api/auth/(?<segment>.*), /${segment} # RewritePath'ni to'g'rilash
+            - RewritePath=/api/auth/(?<segment>.*), /${segment}
             - name: AuthenticationFilter
               args:
-                excludedUrls: /register,/login # Vergul bilan ajratish
+                excludedUrls: /register,/login
 
         - id: classificator-service
           uri: lb://classificator-service
           predicates:
             - Path=/api/classificator/**
           filters:
-            - RewritePath=/api/classificator/(?<segment>.*), /${segment} # RewritePath'ni to'g'rilash
+            - RewritePath=/api/classificator/(?<segment>.*), /${segment}
             - name: AuthenticationFilter
               args:
-                excludedUrls: # Agar Classificator uchun excludedUrls bo'lmasa, shunday qoldiring yoki `[]` yozing
+                excludedUrls:
             - name: CircuitBreaker
               args:
                 name: classificator-service-breaker
-                fallbackUri: forward:/fallback/classificator # Bu endpoint mavjudligiga ishonch hosil qiling
+                fallbackUri: forward:/fallback/classificator
 
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
   instance:
-    hostname: localhost # Gateway uchun localhost hostname'i odatda yaxshi
+    hostname: localhost
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*" # Actuator endpointlarini ochish tavsiya etiladi
+        include: "*"
 
 jwt:
-  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970 # Boshqa servislardagi bilan bir xil bo'lishi shart!
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970

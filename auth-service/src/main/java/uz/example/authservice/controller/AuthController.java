@@ -9,7 +9,6 @@ import uz.example.authservice.payload.LoginRequest;
 import uz.example.authservice.payload.RegisterRequest;
 
 
-@RequestMapping("api/auth")
 public interface AuthController {
 
     @PostMapping("/register")

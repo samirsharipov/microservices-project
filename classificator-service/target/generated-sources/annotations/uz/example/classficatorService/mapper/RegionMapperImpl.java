@@ -12,7 +12,7 @@ import uz.example.classficatorService.payload.RegionDto;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-01T20:41:03+0500",
+    date = "2025-06-02T09:32:36+0500",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.15 (Amazon.com Inc.)"
 )
 @Component
