@@ -23,8 +23,10 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     public ApiResponse createRegion(RegionDto regionDto) {
-        countryRepository.findById(regionDto.getCountryId())
-                .orElseThrow(() -> new RuntimeException("Mamlakat topilmadi: " + regionDto.getCountryId()));
+        Optional<Country> optionalCountry = countryRepository.findById(regionDto.getCountryId());
+        if (optionalCountry.isEmpty()) {
+            return new ApiResponse("Country not found", false);
+        }
 
         Region region = regionMapper.toEntity(regionDto);
         regionRepository.save(region);
@@ -50,8 +52,14 @@ public class RegionServiceImpl implements RegionService {
         if (optional.isEmpty()) {
             return new ApiResponse("Region not found", false);
         }
+        Optional<Country> optionalCountry = countryRepository.findById(regionDto.getCountryId());
+        if (optionalCountry.isEmpty()) {
+            return new ApiResponse("Country not found", false);
+        }
+
         Region region = optional.get();
         regionMapper.update(region, regionDto);
+        region.setCountry(optionalCountry.get());
         regionRepository.save(region);
         return new ApiResponse("Region updated successfully", true);
     }

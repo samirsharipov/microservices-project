@@ -3,6 +3,7 @@ package uz.example.classficatorService.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.example.classficatorService.entity.District;
+import uz.example.classficatorService.entity.Region;
 import uz.example.classficatorService.mapper.DistrictMapper;
 import uz.example.classficatorService.payload.ApiResponse;
 import uz.example.classficatorService.payload.DistrictDto;
@@ -22,8 +23,10 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Override
     public ApiResponse createDistrict(DistrictDto districtDto) {
-        regionRepository.findById(districtDto.getRegionId())
-                .orElseThrow(() -> new RuntimeException("Mintaqa topilmadi: " + districtDto.getRegionId()));
+        Optional<Region> optionalRegion = regionRepository.findById(districtDto.getRegionId());
+        if (optionalRegion.isEmpty()) {
+            return new ApiResponse("Region not found",false);
+        }
 
         districtRepository.save(districtMapper.toEntity(districtDto));
         return new ApiResponse("District created successfully", true);
@@ -48,9 +51,14 @@ public class DistrictServiceImpl implements DistrictService {
         if (optional.isEmpty()) {
             return new ApiResponse("District not found", false);
         }
+        Optional<Region> optionalRegion = regionRepository.findById(districtDto.getRegionId());
+        if (optionalRegion.isEmpty()) {
+            return new ApiResponse("Region not found", false);
+        }
 
         District district = optional.get();
         districtMapper.update(district, districtDto);
+        district.setRegion(optionalRegion.get());
         districtRepository.save(district);
         return new ApiResponse("District updated successfully", true);
     }

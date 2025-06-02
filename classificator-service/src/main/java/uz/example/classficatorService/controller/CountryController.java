@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.example.classficatorService.payload.CountryDto;
 import uz.example.classficatorService.payload.ApiResponse;
 
-@RequestMapping("/api/countries")
+@RequestMapping("/countries")
 public interface CountryController {
 
     @PostMapping
